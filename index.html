@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>コマンド練習 - Terminal Practice</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <div id="app">
+    <!-- トップ画面 -->
+    <section id="top-screen" class="screen active">
+      <header class="top-header">
+        <h1 class="title">Terminal Practice</h1>
+        <p class="subtitle">コマンドプロンプト練習ゲーム</p>
+      </header>
+      <div class="top-content">
+        <div class="select-group">
+          <label>プラットフォーム</label>
+          <div class="platform-tabs">
+            <button type="button" class="platform-tab active" data-platform="mac">Mac</button>
+            <button type="button" class="platform-tab" data-platform="windows">Windows</button>
+          </div>
+        </div>
+        <div class="select-group">
+          <label>難易度</label>
+          <div class="difficulty-buttons">
+            <button type="button" class="difficulty-btn active" data-difficulty="easy">イージー</button>
+            <button type="button" class="difficulty-btn" data-difficulty="normal">ノーマル</button>
+            <button type="button" class="difficulty-btn" data-difficulty="hard">ハード</button>
+          </div>
+        </div>
+        <button type="button" id="start-btn" class="start-btn">はじめる</button>
+      </div>
+    </section>
+
+    <!-- ゲーム画面 -->
+    <section id="game-screen" class="screen">
+      <div class="game-container">
+      <header class="game-header">
+        <span class="platform-badge" id="platform-badge">Mac</span>
+        <span class="difficulty-badge" id="difficulty-badge">NORMAL</span>
+        <div class="stats">
+          <span class="stat">スコア: <strong id="score-display">0</strong></span>
+          <span class="stat">コンボ: <strong id="combo-display">x0</strong></span>
+          <span class="stat" id="question-counter">1/10</span>
+        </div>
+      </header>
+      <main class="game-main">
+        <div class="task-area">
+          <h2 class="task-label">作業内容</h2>
+          <p class="task-text" id="task-text"></p>
+          <div class="command-hint" id="command-hint" style="display: none;">
+            <span class="command-hint-label">入力するコマンド:</span>
+            <code class="command-display" id="command-display"></code>
+          </div>
+        </div>
+        <div class="terminal-area">
+          <div class="terminal-window">
+            <div class="terminal-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">terminal</span>
+            </div>
+            <div class="terminal-body">
+              <div class="terminal-line">
+                <span class="prompt" id="prompt">$ </span>
+                <span class="input-area" id="input-area">
+                  <span class="typed" id="typed"></span>
+                  <span class="cursor" id="cursor">|</span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <input type="text" id="hidden-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="game-actions">
+          <button type="button" id="giveup-btn" class="giveup-btn">ギブアップ</button>
+          <button type="button" id="back-to-top-btn" class="back-to-top-btn">トップに戻る</button>
+        </div>
+      </main>
+      </div>
+    </section>
+
+    <!-- 結果画面 -->
+    <section id="result-screen" class="screen">
+      <div class="result-container">
+      <header class="result-header">
+        <h1 class="result-title">結果</h1>
+      </header>
+      <main class="result-main">
+        <div class="result-stats">
+          <div class="result-stat">
+            <span class="result-value" id="final-score">0</span>
+            <span class="result-label">スコア</span>
+          </div>
+          <div class="result-stat">
+            <span class="result-value" id="accuracy-display">0%</span>
+            <span class="result-label">正確率</span>
+          </div>
+          <div class="result-stat">
+            <span class="result-value" id="time-display">0:00</span>
+            <span class="result-label">所要時間</span>
+          </div>
+        </div>
+        <div class="result-actions">
+          <button type="button" id="retry-btn" class="action-btn">もう一度</button>
+          <button type="button" id="back-btn" class="action-btn secondary">トップに戻る</button>
+        </div>
+      </main>
+      </div>
+    </section>
+  </div>
+
+  <script src="js/data/questions-mac.js"></script>
+  <script src="js/data/questions-windows.js"></script>
+  <script src="js/GameManager.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
