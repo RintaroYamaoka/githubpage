@@ -1,6 +1,8 @@
 /**
  * ゲーム全体の進行を管理
  */
+const QUESTIONS_PER_GAME = 5;
+
 class GameManager {
   constructor() {
     this.platform = "mac";
@@ -16,14 +18,12 @@ class GameManager {
     this.isGiveUp = false;
   }
 
-  static QUESTIONS_PER_GAME = 5;
-
   init(platform, difficulty) {
     this.platform = platform;
     this.difficulty = difficulty;
     const source = platform === "mac" ? QUESTIONS_MAC : QUESTIONS_WINDOWS;
     const shuffled = this.shuffleArray([...source[difficulty]]);
-    this.questions = shuffled.slice(0, GameManager.QUESTIONS_PER_GAME);
+    this.questions = shuffled.slice(0, QUESTIONS_PER_GAME);
     this.currentIndex = 0;
     this.score = 0;
     this.combo = 0;
