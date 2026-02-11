@@ -33,12 +33,27 @@ const elements = {
   backToTopBtn: document.getElementById("back-to-top-btn"),
 };
 
-// 正解文字用のspanを生成
+// 正解文字用のspanを生成（複数正解の場合は入力と最も一致するものを使用）
 function renderTypedWithClass(input, target) {
   const q = gameManager.getCurrentQuestion();
   if (!q) return;
   const answers = q.answers;
-  const bestAnswer = answers[0];
+  const normalizedInput = gameManager.normalizeInput(input);
+  // 入力が正解の先頭と一致するもののうち、最も長い（最も specific）ものを選ぶ
+  let bestAnswer = answers[0];
+  if (normalizedInput) {
+    let bestLength = 0;
+    for (const ans of answers) {
+      const n = gameManager.normalizeInput(ans);
+      if (n.startsWith(normalizedInput) && n.length > bestLength) {
+        bestAnswer = ans;
+        bestLength = n.length;
+      } else if (normalizedInput.startsWith(n) && n.length > bestLength) {
+        bestAnswer = ans;
+        bestLength = n.length;
+      }
+    }
+  }
   let html = "";
   for (let i = 0; i < input.length; i++) {
     const char = input[i];
@@ -79,6 +94,11 @@ function startGame() {
   const platform = document.querySelector(".platform-tab.active").dataset.platform;
   const difficulty = document.querySelector(".difficulty-btn.active").dataset.difficulty;
   gameManager.init(platform, difficulty);
+
+  if (gameManager.questions.length === 0) {
+    alert("この難易度には問題がありません。");
+    return;
+  }
   elements.platformBadge.textContent = platform === "mac" ? "Mac" : "Windows";
   elements.difficultyBadge.textContent = { easy: "EASY", normal: "NORMAL", hard: "HARD" }[difficulty];
   showScreen("game");
@@ -115,6 +135,9 @@ function submitAnswer() {
   const input = elements.hiddenInput.value;
   const q = gameManager.getCurrentQuestion();
   if (!q) return;
+
+  // 空入力は無視（誤ってEnterを押してもコンボをリセットしない）
+  if (!input.trim()) return;
 
   if (gameManager.checkAnswer(input)) {
     gameManager.onCorrect();
