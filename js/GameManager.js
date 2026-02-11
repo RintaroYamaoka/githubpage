@@ -16,11 +16,14 @@ class GameManager {
     this.isGiveUp = false;
   }
 
+  static QUESTIONS_PER_GAME = 5;
+
   init(platform, difficulty) {
     this.platform = platform;
     this.difficulty = difficulty;
     const source = platform === "mac" ? QUESTIONS_MAC : QUESTIONS_WINDOWS;
-    this.questions = this.shuffleArray([...source[difficulty]]);
+    const shuffled = this.shuffleArray([...source[difficulty]]);
+    this.questions = shuffled.slice(0, GameManager.QUESTIONS_PER_GAME);
     this.currentIndex = 0;
     this.score = 0;
     this.combo = 0;
